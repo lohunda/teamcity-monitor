@@ -23,7 +23,10 @@ import config
 
 import pyttsx
 engine = pyttsx.init()
+volume = engine.getProperty('volume')
+engine.setProperty('volume', volume+40)
 engine.setProperty('rate', 100)
+engine.setProperty('age', 10)
 
 TEAMCITY_LOGIN = 'qing.ye' #os.environ['TEAMCITY_LOGIN']
 TEAMCITY_PASSWORD = 'efef@12345' #os.environ['TEAMCITY_PASSWORD']
@@ -64,10 +67,10 @@ class BaseResource(Resource):
 			
         try:
             if response['problemOccurrences'] is not None:
-                voices = engine.getProperty('voices')
-                for voice in voices:
-                    engine.setProperty('voice', voice.id)
-                    engine.say("DLA Build %s failed"%build_type_id)
+                build = build_type_id.replace('LabsSpecialdeals_CnsEtuat33Rio_', 'Special Deal ')
+                build = build.replace('CnsEtuat15_', 'DLA backend ')
+                build = build.replace('CnsEtuat6_', 'DLA frontend ')
+                engine.say("Build %s was failed"%build)
                 engine.runAndWait()
                 logger.error(response)
         except:
