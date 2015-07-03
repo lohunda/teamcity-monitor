@@ -5,6 +5,9 @@ import os
 import sys
 import json
 import base64
+import pdb
+import logging
+import logging.config
 from optparse import OptionParser
 
 from twisted.internet import defer
@@ -24,6 +27,10 @@ TEAMCITY_PASSWORD = 'efef@12345' #os.environ['TEAMCITY_PASSWORD']
 TEAMCITY_URL = 'http://teamcitycn.englishtown.com' #os.environ['TEAMCITY_URL']
 TEAMCITY_REST_API_URL = '%s/guestAuth/app/rest' % TEAMCITY_URL
 
+logging.config.fileConfig("logging.conf")
+
+#create logger
+logger = logging.getLogger("Server")
 
 def download_page(url):
     basic_auth = base64.encodestring('%s:%s' % (TEAMCITY_LOGIN,
@@ -51,14 +58,15 @@ class BaseResource(Resource):
             response = {}
         finally:
             response['buildTypeId'] = build_type_id
-            return response
+			
+        logger.info(response) 
+        return response
 
     def generate_response_data(self, response):
         response_data = {}
         for success, data in response:
             if success:
                 response_data[data['buildTypeId']] = data
-
         return json.dumps(response_data)
 
     def get_all_build_types_id(self):
