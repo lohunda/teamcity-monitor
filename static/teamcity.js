@@ -61,7 +61,7 @@
         Play alarm sound when build failed.
         */
 
-        document.getElementById('alarm-sound').play();
+        //document.getElementById('alarm-sound').play();
     }
 
     function layoutBuilds() {

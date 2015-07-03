@@ -21,6 +21,9 @@ from twisted.web.resource import Resource
 
 import config
 
+import pyttsx
+engine = pyttsx.init()
+engine.setProperty('rate', 100)
 
 TEAMCITY_LOGIN = 'qing.ye' #os.environ['TEAMCITY_LOGIN']
 TEAMCITY_PASSWORD = 'efef@12345' #os.environ['TEAMCITY_PASSWORD']
@@ -57,10 +60,20 @@ class BaseResource(Resource):
         except:
             response = {}
         finally:
-            response['buildTypeId'] = build_type_id
+            response['buildTypeId'] = build_type_id	
 			
-        logger.info(response) 
-        return response
+        try:
+            if response['problemOccurrences'] is not None:
+                voices = engine.getProperty('voices')
+                for voice in voices:
+                    engine.setProperty('voice', voice.id)
+                    engine.say("DLA Build %s failed"%build_type_id)
+                engine.runAndWait()
+                logger.error(response)
+        except:
+            logger.info("build %s success"%build_type_id)
+        finally:				
+            return response
 
     def generate_response_data(self, response):
         response_data = {}
