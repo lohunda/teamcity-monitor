@@ -19,10 +19,10 @@ from twisted.web.resource import Resource
 import config
 
 
-TEAMCITY_LOGIN = os.environ['TEAMCITY_LOGIN']
-TEAMCITY_PASSWORD = os.environ['TEAMCITY_PASSWORD']
-TEAMCITY_URL = os.environ['TEAMCITY_URL']
-TEAMCITY_REST_API_URL = '%s/httpAuth/app/rest' % TEAMCITY_URL
+TEAMCITY_LOGIN = 'qing.ye' #os.environ['TEAMCITY_LOGIN']
+TEAMCITY_PASSWORD = 'efef@12345' #os.environ['TEAMCITY_PASSWORD']
+TEAMCITY_URL = 'http://teamcitycn.englishtown.com' #os.environ['TEAMCITY_URL']
+TEAMCITY_REST_API_URL = '%s/guestAuth/app/rest' % TEAMCITY_URL
 
 
 def download_page(url):
@@ -31,7 +31,7 @@ def download_page(url):
     basic_auth = basic_auth.strip()
     request_headers = {
         'Accept': 'application/json',
-        'Authorization': 'Basic %s' % basic_auth,
+        #'Authorization': 'Basic %s' % basic_auth,
     }
 
     return getPage(url=url, headers=request_headers)

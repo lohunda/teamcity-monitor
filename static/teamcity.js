@@ -11,10 +11,10 @@
         classBuildRunning = 'build-running',
         classBuildContainer = 'build-container',
 
-        POLLING_INTERVAL_BUILD_STATUS_INFO = 7000,
-        POLLING_INTERVAL_BUILD_CHANGES_INFO = 15000,
-        POLLING_INTERVAL_BUILD_RUNNING_INFO = 3000,
-        POLLING_INTERVAL_BUILD_STATISTICS_INFO = 15000,
+        POLLING_INTERVAL_BUILD_STATUS_INFO = 140000,
+        POLLING_INTERVAL_BUILD_CHANGES_INFO = 120000,
+        POLLING_INTERVAL_BUILD_RUNNING_INFO = 60000,
+        POLLING_INTERVAL_BUILD_STATISTICS_INFO = 140000,
 
         DATETIME_REGEXP = /(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})\+\d{4}/;
 
@@ -130,11 +130,14 @@
     // AJAX handlers
 
     function onGetBuildStatusInfoSuccess(response) {
-        console.log('Updating build status info ...');
+        console.log('onGetBuildStatusInfoSuccess() ...');
 
         _.each(response, function(data, buildTypeId) {
-            var el = document.getElementById(buildTypeId),
-                buildSuccess = data.status == 'SUCCESS';
+            var el = document.getElementById(buildTypeId);
+			console.log('buildType::::::' + buildTypeId);
+                
+			buildSuccess = data.status == 'SUCCESS';
+			console.log('status::::::' + data.status);
 
             // do not update status for running build
             if (el.classList.contains(classBuildRunning)) {
@@ -145,18 +148,21 @@
                 if (el.classList.contains(classBuildFailed)) {
                     el.classList.remove(classBuildFailed);
                     resetCustomColor(el);
-                    el.classList.add(classBuildSuccess);
-                } else if (!el.classList.contains(classBuildSuccess) &&
-                           !el.classList.contains(classBuildFailed)) {
-                    el.classList.add(classBuildSuccess);
-                }
+                } 				
+                el.classList.add(classBuildSuccess);
             } else if (!buildSuccess && !el.classList.contains(classBuildFailed)) {
                 el.classList.remove(classBuildSuccess);
                 el.classList.add(classBuildFailed);
+				console.log('Play alarm for ::::::' + buildTypeId);
                 playAlarm();
             }
 
-            el.querySelector(selectorBuildTitle).innerHTML = data.buildType.name;
+			var projectName = data.buildType.name;				
+			/*var i = data.buildType.name.indexOf('.');
+			if(i > 0) {
+				projectName = projectName.substring(i+1);
+			}*/
+            el.querySelector(selectorBuildTitle).innerHTML = projectName;
             el.querySelector(selectorBuildStatusText).innerHTML = data.statusText;
             el.querySelector(selectorBuildDuration).innerHTML = getBuildDuration(
                 data.startDate, data.finishDate);
@@ -166,7 +172,7 @@
     }
 
     function onGetBuildChangesInfoSuccess(response) {
-        console.log('Updating build changes info ...');
+        console.log('onGetBuildChangesInfoSuccess() ...');
 
         _.each(response, function(data, buildTypeId) {
             var el = document.getElementById(buildTypeId),
@@ -179,7 +185,7 @@
     }
 
     function onGetBuildRunningInfoSuccess(response) {
-        console.log('Updating build running info ...');
+        console.log('onGetBuildRunningInfoSuccess() ...');
 
         _.each(response, function(data, buildTypeId) {
             var el = document.getElementById(buildTypeId),
@@ -207,7 +213,7 @@
     }
 
     function onGetBuildStatisticsInfoSuccess(response) {
-        console.log('Updating build statistics info ...');
+        console.log('onGetBuildStatisticsInfoSuccess() ...');
 
         _.each(response, function(data, buildTypeId) {
             var el = document.getElementById(buildTypeId);

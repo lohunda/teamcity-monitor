@@ -1,5 +1,5 @@
 body {
-    background: black;
+    background: white;
 }
 
 ::-webkit-progress-bar {
@@ -25,7 +25,7 @@ progress {
 }
 
 .build {
-    border: 1px solid white;
+    border: none;
     padding: 7px;
     margin: 3px;
     display: block;
@@ -39,48 +39,24 @@ progress {
 }
 
 .build-success {
-    background: LawnGreen;
+    color: #4F8A10;
+	background: #DFF2BF;
 }
 
 .build-failed {
-    background: OrangeRed;
-    animation: blink 4s linear infinite;
-    -moz-animation: blink 4s linear infinite;
-    -webkit-animation: blink 4s linear infinite;
-    -o-animation: blink 4s linear infinite;
+    color: #D8000C;
+	background: #FFBABA;
 }
 
-@keyframes blink {
-    0% {background: OrangeRed;}
-    50% {background: rgb(220, 220, 220);}
-    100% {background: OrangeRed;}
-}
-
-@-webkit-keyframes blink {
-    0% {background: OrangeRed;}
-    50% {background: DarkGray;}
-    100% {background: OrangeRed;}
-}
-
-@-moz-keyframes blink {
-    0% {background: OrangeRed;}
-    50% {background: rgb(220, 220, 220);}
-    100% {background: OrangeRed;}
-}
-
-@-o-keyframes blink {
-    0% {background: OrangeRed;}
-    50% {background: rgb(220, 220, 220);}
-    100% {background: OrangeRed;}
-}
 
 .build-running {
-    background: gold;
+	color: #9F6000;
+    background: #FEEFB3;
 }
 
 .build-title {
     font-weight: bold;
-    font-size: 180%;
+    font-size: 140%;
     display: inline-block;
     margin-bottom: 12px;
 }
@@ -88,7 +64,6 @@ progress {
 .build-coverage {
     float: right;
     display: table-cell;
-    color: red;
     font-size: 110%;;
 }
 
