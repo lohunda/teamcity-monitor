@@ -25,8 +25,10 @@ import pyttsx
 engine = pyttsx.init()
 volume = engine.getProperty('volume')
 engine.setProperty('volume', volume+40)
-engine.setProperty('rate', 100)
+engine.setProperty('rate', 80)
 engine.setProperty('age', 10)
+
+joke = "ha ha ha ha Fix it now"
 
 TEAMCITY_LOGIN = 'qing.ye' #os.environ['TEAMCITY_LOGIN']
 TEAMCITY_PASSWORD = 'efef@12345' #os.environ['TEAMCITY_PASSWORD']
@@ -70,7 +72,9 @@ class BaseResource(Resource):
                 build = build_type_id.replace('LabsSpecialdeals_CnsEtuat33Rio_', 'Special Deal ')
                 build = build.replace('CnsEtuat15_', 'DLA backend ')
                 build = build.replace('CnsEtuat6_', 'DLA frontend ')
-                engine.say("Build %s was failed"%build)
+                username = response['lastChanges']['change'][0]['username']
+                #pdb.set_trace() 
+                engine.say("Build %s was failed last changed by %s "%(build, username + joke))
                 engine.runAndWait()
                 logger.error(response)
         except:
